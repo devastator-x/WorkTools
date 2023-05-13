@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+    <title>UTF-8 Decoder</title>
     <!-- Bootstrap CSS -->
     <link
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
     />
-
-    <title>ASCII Code Converter</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -46,31 +43,26 @@
     </nav>
 
     <div class="container">
-      <h1 class="my-4">ASCII Code Converter</h1>
-
+      <h1 class="my-4">UTF-8 Decoder</h1>
       <form method="POST">
         <div class="form-group">
-          <label for="asciiString"
-            >Enter ASCII Strings (e.g., Char(65) Char(66))</label
-          >
+          <label for="encoded_string">Enter your encoded UTF-8 string:</label>
           <input
             type="text"
             class="form-control"
-            id="asciiString"
-            name="ascii_string"
+            id="encoded_string"
+            name="encoded_string"
             required
           />
         </div>
-        <button type="submit" class="btn btn-primary">Convert</button>
+        <button type="submit" class="btn btn-primary">Decode</button>
       </form>
-
-      {% if characters %}
+      {% if decoded_string %}
       <div class="alert alert-success mt-4" role="alert">
-        Corresponding Characters: {{ characters }}
+        Decoded String: {{ decoded_string }}
       </div>
       {% endif %}
     </div>
-
     <!-- Optional JavaScript; choose one of the two! -->
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
