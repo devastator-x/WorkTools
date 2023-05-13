@@ -2,6 +2,11 @@ import geoip2.database
 import socket
 import re
 from flask import Flask, render_template, request
+from modules.County_Codes import country_code_to_korean
+
+# 국가 코드를 한국어 국가 이름으로 변환하는 함수
+def get_korean_country_name(country_code):
+    return country_code_to_korean.get(country_code, 'None')
 
 app = Flask(__name__)
 
@@ -37,7 +42,7 @@ def index():
                     response = reader.country(ip_address)
                     ip_data.append({
                         'ip': input_value,
-                        'country': response.country.name
+                        'country': get_korean_country_name(response.country.iso_code)  # 수정된 부분
                     })
                 except:
                     ip_data.append({
