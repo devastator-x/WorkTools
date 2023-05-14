@@ -188,39 +188,26 @@ def shodan():
 
 @app.route('/krcert')
 def krcert():
-    url = "https://www.krcert.or.kr/kr/bbs/list.do?menuNo=205020&bbsId=B0000133"
+    url = 'https://www.krcert.or.kr/kr/bbs/list.do?bbsId=B0000133&menuNo=205020'
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
-
-    table = soup.find('div', {'class': 'tbl'}).find('table')
-    if table is None:
-        return "Table not found on the page."
-
-    rows = table.find_all('tr')[1:]  # get all rows except the header row
+    table = soup.find('table')
+    rows = table.find_all('tr')
     posts = []
+    now = datetime.now()
 
     for row in rows:
         cols = row.find_all('td')
-        if len(cols) >= 5:
-            title_tag = cols[1].find('a')
-            date_tag = cols[4]
-            
-            # Check if title_tag or date_tag is None before calling get_text
-            if title_tag is None or date_tag is None:
-                continue
-
-            title = title_tag.get_text(strip=True)
-            date = date_tag.get_text(strip=True)
-
-            post_date = datetime.strptime(date, "%Y-%m-%d")
-
-            if (datetime.now() - post_date).total_seconds() <= 518400:
-                posts.append((title, date))
-
-    if not posts:
-        return "No new posts in the last 48 hours."
+        if len(cols) > 0:
+            date_str = cols[4].text.strip()
+            post_date = datetime.strptime(date_str, "%Y-%m-%d")
+            if (now - post_date).days <= 2:
+                title = cols[1].text.strip()
+                link = "https://www.krcert.or.kr" + cols[1].find('a')['href']
+                posts.append({'title': title, 'date': date_str, 'link': link})
 
     return render_template('krcert.html', posts=posts)
+
 
 if __name__ == '__main__':
     app.run()
