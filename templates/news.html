@@ -33,14 +33,32 @@
             <a class="nav-link" href="/ascii_to_char">ASCII Code Converter</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/utf8_decoder">UTF-8 Decorder</a>
+            <a class="nav-link" href="/utf8_decoder">UTF-8 Decoder</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/news">News</a>
           </li>
+		  <li class="nav-item">
+            <a class="nav-link" href="/shodan">Shodan</a>
+          </li>
         </ul>
       </div>
     </nav>
+    <form method="GET" action="/news">
+        <!-- 기타 필드 -->
+      <label><input type="checkbox" name="topics" value="보안" {% if '보안' in selected_topics %} checked {% endif %}> 보안</label>
+      <label><input type="checkbox" name="topics" value="해킹" {% if '해킹' in selected_topics %} checked {% endif %}> 해킹</label>
+      <label><input type="checkbox" name="topics" value="해커" {% if '해커' in selected_topics %} checked {% endif %}> 해커</label>
+      <label><input type="checkbox" name="topics" value="멀웨어" {% if '멀웨어' in selected_topics %} checked {% endif %}> 멀웨어</label>
+	  <label><input type="checkbox" name="topics" value="랜섬웨어" {% if '랜섬웨어' in selected_topics %} checked {% endif %}> 랜섬웨어</label>
+	  <label><input type="checkbox" name="topics" value="취약점" {% if '취약점' in selected_topics %} checked {% endif %}> 취약점</label>
+      <select name="days">
+        <option value="Day" {% if days == 'Day' %} selected {% endif %}>24 시간</option>
+        <option value="Week" {% if days == 'Week' %} selected {% endif %}>7 일</option>
+        <option value="Month" {% if days == 'Month' %} selected {% endif %}>30 일</option>
+      </select>
+      <input type="submit" value="검색">
+	</form>
 
     <div class="container">
       <h1 class="my-4">News</h1>

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>IP to Country</title>
+    <meta charset="UTF-8" />
+    <title>Shodan Search</title>
     <!-- Bootstrap CSS -->
     <link
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
     />
   </head>
+
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="#">Navigation</a>
@@ -44,41 +44,63 @@
         </ul>
       </div>
     </nav>
+
     <div class="container">
-      <h1 class="my-3">IP to Country</h1>
-      <form method="post">
+      <h1 class="mt-5">Shodan Search</h1>
+      <form method="POST">
         <div class="mb-3">
-          <label for="ip_list" class="form-label">IP List:</label>
-          <textarea
+          <label for="query" class="form-label">IP / Domain</label>
+          <input
+            type="text"
             class="form-control"
-            name="ip_list"
-            id="ip_list"
-            rows="10"
-          ></textarea>
+            id="query"
+            name="query"
+            required
+          />
         </div>
-        <input type="submit" class="btn btn-primary" value="Submit" />
+        <button type="submit" class="btn btn-primary">Search</button>
       </form>
-      {% if ip_data %}
-      <table class="table table-striped table-hover my-3">
+      {% if results %}
+      <h2 class="my-4">Results</h2>
+      <table class="table">
         <thead>
           <tr>
-            <th scope="col">IP Address</th>
-            <th scope="col">Country</th>
+            <th>Key</th>
+            <th>Value</th>
           </tr>
         </thead>
         <tbody>
-          {% for data in ip_data %}
+          {% for key, value in results.items() %} {% if value is mapping %} {%
+          for sub_key, sub_value in value.items() %}
           <tr>
-            <td>{{ data.ip }}</td>
-            <td>{{ data.country }}</td>
+            <td>{{ key }}.{{ sub_key }}</td>
+            <td>{{ sub_value }}</td>
           </tr>
-          {% endfor %}
+          {% endfor %} {% elif value is iterable and value is not string %} {%
+          for element in value %} {% if element is mapping %} {% for sub_key,
+          sub_value in element.items() %}
+          <tr>
+            <td>{{ key }}[{{ loop.index }}].{{ sub_key }}</td>
+            <td>{{ sub_value }}</td>
+          </tr>
+          {% endfor %} {% else %}
+          <tr>
+            <td>{{ key }}[{{ loop.index }}]</td>
+            <td>{{ element }}</td>
+          </tr>
+          {% endif %} {% endfor %} {% else %}
+          <tr>
+            <td>{{ key }}</td>
+            <td>{{ value }}</td>
+          </tr>
+          {% endif %} {% endfor %}
         </tbody>
       </table>
       {% endif %}
     </div>
-    <!-- Optional JavaScript; choose one of the two! -->
-    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
   </body>

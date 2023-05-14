@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>IP to Country</title>
-    <!-- Bootstrap CSS -->
+    <title>Shodan Search</title>
     <link
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
@@ -44,41 +43,44 @@
         </ul>
       </div>
     </nav>
+
     <div class="container">
-      <h1 class="my-3">IP to Country</h1>
-      <form method="post">
-        <div class="mb-3">
-          <label for="ip_list" class="form-label">IP List:</label>
-          <textarea
+      <h1 class="mt-5 mb-5">Shodan Search</h1>
+      <form method="POST">
+        <div class="form-group">
+          <label for="query">IP / Domain</label>
+          <input
+            type="text"
             class="form-control"
-            name="ip_list"
-            id="ip_list"
-            rows="10"
-          ></textarea>
+            id="query"
+            name="query"
+            placeholder="Enter an IP address or a domain name"
+          />
         </div>
-        <input type="submit" class="btn btn-primary" value="Submit" />
+        <button type="submit" class="btn btn-primary">Search</button>
       </form>
-      {% if ip_data %}
-      <table class="table table-striped table-hover my-3">
+      <hr />
+      {% if results %}
+      <h2 class="mt-5 mb-5">Results</h2>
+      <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">IP Address</th>
-            <th scope="col">Country</th>
+            <th>Key</th>
+            <th>Value</th>
           </tr>
         </thead>
         <tbody>
-          {% for data in ip_data %}
+          {% for match in results['matches'] %} {% for key, value in
+          match.items() %}
           <tr>
-            <td>{{ data.ip }}</td>
-            <td>{{ data.country }}</td>
+            <td>{{ key }}</td>
+            <td>{{ value }}</td>
           </tr>
-          {% endfor %}
+          {% endfor %} {% endfor %}
         </tbody>
       </table>
       {% endif %}
     </div>
-    <!-- Optional JavaScript; choose one of the two! -->
-    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
   </body>
