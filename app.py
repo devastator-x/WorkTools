@@ -163,7 +163,7 @@ def shodan():
         if not query:
             results = "Please enter an IP address or a domain name."
         else:
-            shodan_api_key = "aDVXje74ussQwMO5JP4NmkNmssL1sjCI"  # Replace with your Shodan API Key
+            shodan_api_key = os.environ['shodanAPI_key']  # Replace with your Shodan API Key
             api = shodan_lib.Shodan(shodan_api_key)
 
             try:
